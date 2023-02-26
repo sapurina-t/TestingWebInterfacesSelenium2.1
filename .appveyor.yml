@@ -10,8 +10,11 @@ build: off  # будем использовать свой скрипт сбор
 
 install:
   # запускаем SUT (& означает, что в фоновом режиме - не блокируем терминал для запуска тестов)
-  - java -jar artifacts/app-order.jar &
+  - java -jar ./artifacts/app-order.jar &
+  - cmd: pip install webdrivermanager
 
 build_script:
   - chmod +x gradlew
   - ./gradlew test --info  # запускаем тест, флаг --info позволяет выводить больше информации
+  - cmd: webdrivermanager chrome --linkpath %APPVEYOR_BUILD_FOLDER%\drivers
+  - cmd: set PATH=%PATH%;%APPVEYOR_BUILD_FOLDER%\drivers
